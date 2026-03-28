@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Skippy</title>
+  <!-- styles.css is loaded synchronously — no async fetch, no white flash -->
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /*
+     * In popup context there is no Shadow DOM, so :host never fires.
+     * Redefine design tokens on html and let them cascade normally.
+     */
+    html {
+      --bg:              #f5f2eb;
+      --bg-input:        #fdfcf9;
+      --border:          #ddd8cc;
+      --border-subtle:   #e8e4da;
+      --text-primary:    #1a1926;
+      --text-secondary:  #5c5847;
+      --text-muted:      #9c9580;
+      --accent:          #b87c1e;
+      --accent-subtle:   #ede4d0;
+      --selected-bg:     #ede9df;
+      --selected-border: #b87c1e;
+      --shadow:          0 8px 40px rgba(0,0,0,.18), 0 2px 8px rgba(0,0,0,.10);
+      --scrim:           rgba(20,18,28,.30);
+      --radius:          6px;
+      font-family:       -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      html {
+        --bg:              #1e1c18;
+        --bg-input:        #252319;
+        --border:          #38352c;
+        --border-subtle:   #2e2c25;
+        --text-primary:    #e8e3d5;
+        --text-secondary:  #a8a28e;
+        --text-muted:      #706a57;
+        --accent:          #d4972a;
+        --accent-subtle:   #2e2610;
+        --selected-bg:     #2a2720;
+        --selected-border: #d4972a;
+        --shadow:          0 8px 40px rgba(0,0,0,.55), 0 2px 8px rgba(0,0,0,.40);
+        --scrim:           rgba(0,0,0,.50);
+      }
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 580px;
+      height: 460px;
+      overflow: hidden;
+      /* Prevents white flash while ui.js initialises */
+      background: var(--bg);
+    }
+
+    /* Layout overrides for flat (non-shadow) popup context */
+    #skippy-overlay {
+      position: relative !important;
+      inset: auto !important;
+      padding-top: 0 !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      width: 580px;
+      height: 460px;
+      align-items: stretch !important;
+    }
+    #skippy-scrim   { display: none !important; }
+    #skippy-panel   {
+      width: 100% !important;
+      border-radius: 0 !important;
+      border-left: none !important;
+      border-right: none !important;
+      border-top: none !important;
+      box-shadow: none !important;
+      max-height: 460px !important;
+      flex: 1 !important;
+      /* Disable entry animation — the popup window opening is animation enough */
+      transform: none !important;
+      transition: none !important;
+    }
+  </style>
+</head>
+<body>
+  <script src="ui.js"></script>
+</body>
+</html>

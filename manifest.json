@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "Skippy",
+  "version": "1.0.0",
+  "description": "Zero-latency MRU tab switcher for power users.",
+  "permissions": ["tabs", "storage", "activeTab", "scripting"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*", "file:///*"],
+      "js": ["ui.js", "content.js"],
+      "run_at": "document_start",
+      "all_frames": false
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Skippy"
+  },
+  "options_page": "options.html",
+  "commands": {
+    "toggle-skippy": {
+      "suggested_key": {
+        "mac": "Command+Shift+Comma",
+        "default": "Ctrl+Shift+Comma"
+      },
+      "description": "Open Skippy tab switcher"
+    }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["styles.css"],
+      "matches": ["http://*/*", "https://*/*", "file:///*"]
+    }
+  ]
+}

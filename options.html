@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Skippy — Options</title>
+  <style>
+    /* ── Tokens (mirrors popup.html — no :host in a flat page) ──────────────── */
+    html {
+      --bg:              #f5f2eb;
+      --bg-card:         #fdfcf9;
+      --border:          #ddd8cc;
+      --border-subtle:   #e8e4da;
+      --text-primary:    #1a1926;
+      --text-secondary:  #5c5847;
+      --text-muted:      #9c9580;
+      --accent:          #b87c1e;
+      --accent-subtle:   #ede4d0;
+      --radius:          6px;
+      font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      html {
+        --bg:              #1e1c18;
+        --bg-card:         #252319;
+        --border:          #38352c;
+        --border-subtle:   #2e2c25;
+        --text-primary:    #e8e3d5;
+        --text-secondary:  #a8a28e;
+        --text-muted:      #706a57;
+        --accent:          #d4972a;
+        --accent-subtle:   #2e2610;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 40px 24px 60px;
+    }
+
+    /* ── Layout ─────────────────────────────────────────────────────────────── */
+    .page { max-width: 520px; margin: 0 auto; }
+
+    /* ── Header ─────────────────────────────────────────────────────────────── */
+    header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 36px;
+    }
+    .sigil {
+      font-size: 22px;
+      color: var(--accent);
+      line-height: 1;
+    }
+    h1 {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+    }
+    .subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-left: auto;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Section ────────────────────────────────────────────────────────────── */
+    section { margin-bottom: 32px; }
+
+    h2 {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    /* ── Binding rows ───────────────────────────────────────────────────────── */
+    .binding-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .binding-row:last-child { border-bottom: none; }
+
+    .binding-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-primary);
+      flex: 1;
+      min-width: 0;
+    }
+    .binding-label small {
+      display: block;
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    .binding-keys {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+
+    /* ── Key badge ──────────────────────────────────────────────────────────── */
+    kbd.key {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 28px;
+      height: 24px;
+      padding: 0 6px;
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      letter-spacing: 0.02em;
+      cursor: default;
+    }
+
+    kbd.key.is-custom {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--accent-subtle);
+      cursor: pointer;
+    }
+    kbd.key.is-custom:hover { opacity: 0.8; }
+
+    kbd.key.is-listening {
+      color: var(--accent);
+      border-color: var(--accent);
+      border-style: dashed;
+      background: var(--accent-subtle);
+      min-width: 80px;
+      cursor: default;
+      animation: pulse 1s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.5; }
+    }
+
+    .sep { font-size: 10px; color: var(--text-muted); }
+
+    /* ── Add / Reset buttons ─────────────────────────────────────────────────── */
+    button.add-key, button.reset-key {
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      line-height: 1.5;
+      transition: opacity 120ms ease;
+    }
+    button.add-key {
+      color: var(--accent);
+      border: 1px dashed var(--accent);
+      background: transparent;
+    }
+    button.add-key:hover { background: var(--accent-subtle); }
+
+    button.reset-key {
+      color: var(--text-muted);
+      border: 1px solid var(--border-subtle);
+      background: transparent;
+    }
+    button.reset-key:hover { color: var(--text-secondary); border-color: var(--border); }
+
+    /* ── Fixed bindings (non-editable) ──────────────────────────────────────── */
+    .binding-row.is-fixed .binding-label { color: var(--text-secondary); }
+
+    /* ── Activation section ─────────────────────────────────────────────────── */
+    .activation-note {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .activation-note code {
+      font-family: 'SF Mono', 'Consolas', monospace;
+      font-size: 11px;
+      background: var(--border-subtle);
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: var(--text-primary);
+      user-select: all;
+    }
+    button.open-shortcuts {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 10px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent);
+      background: transparent;
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    button.open-shortcuts:hover { background: var(--accent-subtle); }
+
+    /* ── Saved toast ────────────────────────────────────────────────────────── */
+    #toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(8px);
+      background: var(--text-primary);
+      color: var(--bg);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 20px;
+      opacity: 0;
+      transition: opacity 200ms ease, transform 200ms ease;
+      pointer-events: none;
+    }
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      kbd.key.is-listening { animation: none; }
+      #toast, button { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <span class="sigil">⇥</span>
+      <h1>Skippy</h1>
+      <span class="subtitle">Options</span>
+    </header>
+
+    <section>
+      <h2>Navigation shortcuts</h2>
+      <div class="card" id="bindings-list">
+        <!-- rendered by options.js -->
+      </div>
+    </section>
+
+    <section>
+      <h2>Activation shortcut</h2>
+      <div class="card" style="padding: 14px 16px">
+        <p class="activation-note">
+          The activation shortcut (<code>Cmd+Shift+,</code> / <code>Ctrl+Shift+,</code>) is managed
+          by Chrome and can be changed at <code>chrome://extensions/shortcuts</code>.
+        </p>
+        <button class="open-shortcuts" id="open-shortcuts-btn">
+          Open shortcut settings ↗
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <div id="toast">Saved</div>
+
+  <script src="options.js"></script>
+</body>
+</html>
