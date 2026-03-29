@@ -12,9 +12,10 @@ Skippy keeps a most-recently-used stack per window. The tab you were just on is 
 
 ## Install
 
-1. Clone or download this repo
-2. Go to `chrome://extensions` and enable **Developer mode**
-3. Click **Load unpacked** and select the `skippy/` folder
+1. Download `skippy.zip` from the [latest release](https://github.com/dev0701/skippy/releases/latest)
+2. Unzip it
+3. Go to `chrome://extensions` and enable **Developer mode**
+4. Click **Load unpacked** and select the unzipped folder
 
 No build step. No npm install. No dependencies.
 
