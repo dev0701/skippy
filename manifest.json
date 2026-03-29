@@ -15,9 +15,13 @@
       "all_frames": false
     }
   ],
+  "icons": {
+    "128": "icon128.png"
+  },
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Skippy"
+    "default_title": "Skippy",
+    "default_icon": "icon128.png"
   },
   "options_page": "options.html",
   "commands": {
