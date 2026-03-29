@@ -1,14 +1,12 @@
 # Skippy
 
-A zero-latency, keyboard-driven tab switcher for Chromium. Navigate tabs in the order you *used* them — not the order they sit in your tab bar.
+![Skippy](logo.png)
 
----
+You're deep in a tab. You need the one you were just on. You scan the tab bar, find it, click it — three seconds gone.
 
-## Why
+**`Cmd+Shift+,` → `Enter`.** You're there. Do it again, you're back. Two keystrokes, every time, no scanning required.
 
-Every tab switcher shows tabs left-to-right. That's the wrong order. You don't think about tabs spatially — you think about what you were *just* looking at.
-
-Skippy keeps a **most-recently-used stack** per window. The tab you were just on is always position 1. The one before that is position 2. Press the shortcut, press Enter, and you're back on your last tab. Every time, without looking at the list.
+Skippy keeps a most-recently-used stack per window. The tab you were just on is always slot 1. After an hour with it, switching tabs any other way feels broken.
 
 ---
 
