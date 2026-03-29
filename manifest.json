@@ -7,14 +7,6 @@
   "background": {
     "service_worker": "background.js"
   },
-  "content_scripts": [
-    {
-      "matches": ["http://*/*", "https://*/*", "file:///*"],
-      "js": ["ui.js", "content.js"],
-      "run_at": "document_start",
-      "all_frames": false
-    }
-  ],
   "icons": {
     "128": "icon128.png"
   },
