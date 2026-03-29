@@ -3,6 +3,7 @@
   "name": "Skippy",
   "version": "1.0.0",
   "description": "Zero-latency MRU tab switcher for power users.",
+  "license": "MIT",
   "permissions": ["tabs", "storage", "activeTab", "scripting"],
   "background": {
     "service_worker": "background.js"
